@@ -6,12 +6,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "yarn prettier . --write"
   },
   "dependencies": {
     "@types/node": "20.4.5",
     "@types/react": "18.2.17",
     "@types/react-dom": "18.2.7",
+    "@vercel/kv": "^0.2.2",
     "ai": "^2.1.28",
     "autoprefixer": "10.4.14",
     "eslint": "8.46.0",
@@ -23,5 +25,8 @@
     "react-dom": "18.2.0",
     "tailwindcss": "3.3.3",
     "typescript": "5.1.6"
+  },
+  "devDependencies": {
+    "prettier": "3.0.0"
   }
 }
