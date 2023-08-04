@@ -1,7 +1,11 @@
 import { Inter } from "next/font/google";
-import { H1, P } from "@/components/typography";
+import { P } from "@/components/typography";
+import { UserBubble, AIBubble } from "@/components/bubbles";
 import { useChat } from "ai/react";
 import { useEffect, useRef } from "react";
+import Image from "next/image";
+import info from "@/public/info.svg";
+import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,56 +28,42 @@ export default function Home() {
   }, [messages, input]);
 
   return (
-    <div
-      className={`flex mx-auto min-h-screen flex-col items-center justify-between p-24 w-screen ${inter.className}`}
-    >
-      <div className="w-1/2 mx-auto">
-        <H1 className="mb-8">You&apos;re ChatGPT</H1>
-        <UserBubble>Hello human. Ask me questions below!</UserBubble>
-        {messages.map((m) => (
-          <div key={m.id} className="place-items-between scroll-to-bottom">
-            {m.role === "user" ? (
-              <UserBubble>{m.content}</UserBubble>
-            ) : (
-              <AIBubble>{m.content}</AIBubble>
-            )}
-          </div>
-        ))}
-        <form
-          className="space-x-2 fixed bottom-8 mx-auto flex"
-          onSubmit={handleSubmit}
-        >
-          <input
-              className="rounded-xl p-2 outline-none bg-gray-100 w-full"
-              placeholder="Your deep reply..."
+    <div className={`w-screen ${inter.className}`}>
+      <div className="mx-auto">
+        <div className="bg-gray-100 p-2 w-1/2 mx-auto flex justify-between mt-8 rounded-full">
+          <P>
+            <span className="text-gray-500">To:</span> Human
+          </P>
+          <div />
+          <Link href="/about">
+            <Image src={info} height={24} width={24} alt="Information icon" />
+          </Link>
+        </div>
+        <div className="pt-8 pb-20 w-1/2 mx-auto">
+          <AIBubble>
+            Welcome to ReverseGPT! Start by typing something below, and me, the
+            AI will ask <b>you</b> the questions.
+          </AIBubble>
+          {messages.map((m) => (
+            <div key={m.id} className="place-items-between scroll-to-bottom">
+              {m.role === "user" ? (
+                <UserBubble>{m.content}</UserBubble>
+              ) : (
+                <AIBubble>{m.content}</AIBubble>
+              )}
+            </div>
+          ))}
+          <form className="w-1/2 fixed bottom-8" onSubmit={handleSubmit}>
+            <input
+              className="rounded-full py-2 px-4 outline-none border w-full"
+              placeholder="Your reply..."
               value={input}
               onChange={handleInputChange}
               ref={inputRef}
-          />
-          <button
-            type="submit"
-            className="rounded-xl p-2 bg-gray-100 hover:bg-gray-200"
-          >
-            Send
-          </button>
-        </form>
+            />
+          </form>
+        </div>
       </div>
-    </div>
-  );
-}
-
-function UserBubble({ children }: any) {
-  return (
-    <div className="bg-gray-100 max-w-sm p-2 rounded-xl w-max my-4">
-      <P>{children}</P>
-    </div>
-  );
-}
-
-function AIBubble({ children }: any) {
-  return (
-    <div className="bg-[#007AFF] max-w-sm p-2 rounded-xl w-max my-4 ml-auto">
-      <P className="text-white">{children}</P>
     </div>
   );
 }
